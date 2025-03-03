@@ -2,7 +2,7 @@
 
 namespace TelephoneConversations.Core.Models
 {
-    
+
     public class Discount
     {
         [Range(1, int.MaxValue, ErrorMessage = "DiscountID має бути більше 0.")]
