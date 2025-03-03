@@ -11,10 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelephoneConversations.API"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelephoneConversations.Core", "TelephoneConversations.Core\TelephoneConversations.Core.csproj", "{A64A55BA-E341-4850-9E9E-242846223399}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelephoneConversations.Data", "TelephoneConversations.Data\TelephoneConversations.Data.csproj", "{57F228DC-3D94-4687-B152-3F19E76447FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelephoneConversations.DataAccess", "TelephoneConversations.Data\TelephoneConversations.DataAccess.csproj", "{57F228DC-3D94-4687-B152-3F19E76447FA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{A64A55BA-E341-4850-9E9E-242846223399} = {A64A55BA-E341-4850-9E9E-242846223399}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelephoneConversations.Tests", "TelephoneConversations.Tests\TelephoneConversations.Tests.csproj", "{8BAA28B7-B192-4C49-B8B9-F56300523455}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +36,10 @@ Global
 		{57F228DC-3D94-4687-B152-3F19E76447FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57F228DC-3D94-4687-B152-3F19E76447FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57F228DC-3D94-4687-B152-3F19E76447FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BAA28B7-B192-4C49-B8B9-F56300523455}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BAA28B7-B192-4C49-B8B9-F56300523455}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BAA28B7-B192-4C49-B8B9-F56300523455}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BAA28B7-B192-4C49-B8B9-F56300523455}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
