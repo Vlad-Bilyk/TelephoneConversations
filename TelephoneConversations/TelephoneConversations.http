@@ -1,0 +1,6 @@
+@TelephoneConversations_HostAddress = http://localhost:5089
+
+GET {{TelephoneConversations_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
