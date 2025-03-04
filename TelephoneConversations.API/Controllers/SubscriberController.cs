@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using TelephoneConversations.API.DTOs;
 using TelephoneConversations.Core.Models;
-using TelephoneConversations.DataAccess.Data;
+using TelephoneConversations.DataAccess.Repository.IRepository;
 
 namespace TelephoneConversations.API.Controllers
 {
@@ -12,12 +10,12 @@ namespace TelephoneConversations.API.Controllers
     [ApiController]
     public class SubscriberController : ControllerBase
     {
-        private readonly ApplicationDbContext _db;
+        private readonly ISubscriberRepository _dbSubscriber;
         private readonly IMapper _mapper;
 
-        public SubscriberController(ApplicationDbContext db, IMapper mapper)
+        public SubscriberController(ISubscriberRepository dbSubscriber, IMapper mapper)
         {
-            _db = db;
+            _dbSubscriber = dbSubscriber;
             _mapper = mapper;
         }
 
@@ -25,7 +23,7 @@ namespace TelephoneConversations.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<SubscriberDTO>>> GetSubscribers()
         {
-            IEnumerable<Subscriber> subscriberList = await _db.Subscribers.ToListAsync();
+            IEnumerable<Subscriber> subscriberList = await _dbSubscriber.GetAllAsync();
             return Ok(_mapper.Map<List<SubscriberDTO>>(subscriberList));
         }
 
@@ -39,7 +37,7 @@ namespace TelephoneConversations.API.Controllers
             {
                 return BadRequest();
             }
-            var subscriber = await _db.Subscribers.FirstOrDefaultAsync(u => u.SubscriberID == id);
+            var subscriber = await _dbSubscriber.GetAsync(u => u.SubscriberID == id);
             if (subscriber == null)
             {
                 return NotFound();
@@ -54,7 +52,7 @@ namespace TelephoneConversations.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<SubscriberDTO>> CreateSubscriber([FromBody] SubscriberCreateDTO createDTO)
         {
-            if (await _db.Subscribers.FirstOrDefaultAsync(u => u.CompanyName.ToLower() == createDTO.CompanyName.ToLower()) != null)
+            if (await _dbSubscriber.GetAsync(u => u.CompanyName.ToLower() == createDTO.CompanyName.ToLower()) != null)
             {
                 ModelState.AddModelError("CustomError", "Subscriber already Exists!");
                 return BadRequest();
@@ -66,8 +64,7 @@ namespace TelephoneConversations.API.Controllers
             }
 
             Subscriber model = _mapper.Map<Subscriber>(createDTO);
-            await _db.AddAsync(model);
-            await _db.SaveChangesAsync();
+            await _dbSubscriber.CreateAsync(model);
 
             return CreatedAtRoute("GetSubscriber", new { id = model.SubscriberID }, model);
         }
@@ -83,8 +80,7 @@ namespace TelephoneConversations.API.Controllers
             }
 
             Subscriber model = _mapper.Map<Subscriber>(updateDTO);
-            _db.Subscribers.Update(model);
-            await _db.SaveChangesAsync();
+            await _dbSubscriber.UpdateAsync(model);
             return NoContent();
         }
 
@@ -98,13 +94,12 @@ namespace TelephoneConversations.API.Controllers
             {
                 return BadRequest();
             }
-            var subscriber = await _db.Subscribers.FirstOrDefaultAsync(u => u.SubscriberID == id);
+            var subscriber = await _dbSubscriber.GetAsync(u => u.SubscriberID == id);
             if (subscriber == null)
             {
                 return NotFound();
             }
-            _db.Subscribers.Remove(subscriber);
-            await _db.SaveChangesAsync();
+            await _dbSubscriber.RemoveAsync(subscriber);
             return NoContent();
         }
     }
