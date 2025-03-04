@@ -31,7 +31,7 @@ namespace TelephoneConversations.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult> GetSubscriber(int id)
+        public async Task<ActionResult<SubscriberDTO>> GetSubscriber(int id)
         {
             if (id == 0)
             {
@@ -52,21 +52,21 @@ namespace TelephoneConversations.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<SubscriberDTO>> CreateSubscriber([FromBody] SubscriberCreateDTO createDTO)
         {
+            if (createDTO == null)
+            {
+                return BadRequest();
+            }
+
             if (await _dbSubscriber.GetAsync(u => u.CompanyName.ToLower() == createDTO.CompanyName.ToLower()) != null)
             {
                 ModelState.AddModelError("CustomError", "Subscriber already Exists!");
                 return BadRequest();
             }
 
-            if (createDTO == null)
-            {
-                return BadRequest();
-            }
+            Subscriber subscriber = _mapper.Map<Subscriber>(createDTO);
+            await _dbSubscriber.CreateAsync(subscriber);
 
-            Subscriber model = _mapper.Map<Subscriber>(createDTO);
-            await _dbSubscriber.CreateAsync(model);
-
-            return CreatedAtRoute("GetSubscriber", new { id = model.SubscriberID }, model);
+            return CreatedAtRoute("GetSubscriber", new { id = subscriber.SubscriberID }, subscriber);
         }
 
         [HttpPut("{id:int}", Name = "UpdateSubscriber")]
