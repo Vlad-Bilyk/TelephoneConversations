@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace TelephoneConversations.DataAccess.Repository.IRepository
+namespace TelephoneConversations.Core.Interfaces.IRepository
 {
     public interface IRepository<T> where T : class
     {

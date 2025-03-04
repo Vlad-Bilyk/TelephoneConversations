@@ -1,30 +1,29 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using TelephoneConversations.Core.Models;
 using TelephoneConversations.DataAccess.Data;
 using TelephoneConversations.Core.Interfaces.IRepository;
 
 namespace TelephoneConversations.DataAccess.Repository
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class CallRepository : ICallRepository
     {
         private readonly ApplicationDbContext _db;
-        internal DbSet<T> dbSet;
 
-        public Repository(ApplicationDbContext db)
+        public CallRepository(ApplicationDbContext db)
         {
             _db = db;
-            this.dbSet = _db.Set<T>();
         }
 
-        public async Task CreateAsync(T entity)
+        public async Task CreateAsync(Call entity)
         {
-            await _db.AddAsync(entity);
+            await _db.Calls.AddAsync(entity);
             await SaveAsync();
         }
 
-        public async Task<T> GetAsync(Expression<Func<T, bool>>? filter = null, bool tracked = true)
+        public async Task<Call> GetAsync(Expression<Func<Call, bool>>? filter = null, bool tracked = true)
         {
-            IQueryable<T> query = dbSet;
+            IQueryable<Call> query = _db.Calls;
 
             if (!tracked)
             {
@@ -38,9 +37,9 @@ namespace TelephoneConversations.DataAccess.Repository
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null)
+        public async Task<List<Call>> GetAllAsync(Expression<Func<Call, bool>>? filter = null)
         {
-            IQueryable<T> query = dbSet;
+            IQueryable<Call> query = _db.Calls;
 
             if (filter != null)
             {
@@ -48,12 +47,6 @@ namespace TelephoneConversations.DataAccess.Repository
             }
 
             return await query.ToListAsync();
-        }
-
-        public async Task RemoveAsync(T entity)
-        {
-            dbSet.Remove(entity);
-            await SaveAsync();
         }
 
         public async Task SaveAsync()

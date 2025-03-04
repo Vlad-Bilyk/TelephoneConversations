@@ -1,6 +1,6 @@
 ﻿using TelephoneConversations.Core.Models;
 using TelephoneConversations.DataAccess.Data;
-using TelephoneConversations.DataAccess.Repository.IRepository;
+using TelephoneConversations.Core.Interfaces.IRepository;
 
 namespace TelephoneConversations.DataAccess.Repository
 {

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TelephoneConversations.API.DTOs;
 using TelephoneConversations.Core.Models;
-using TelephoneConversations.DataAccess.Repository.IRepository;
+using TelephoneConversations.Core.Interfaces.IRepository;
 
 namespace TelephoneConversations.API.Controllers
 {
