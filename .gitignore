@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/TelephoneConversations.Tests/LocalTests
+/TelephoneConversations.XUnitTests/LocalTests

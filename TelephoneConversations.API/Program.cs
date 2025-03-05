@@ -1,7 +1,28 @@
+using Microsoft.EntityFrameworkCore;
+using TelephoneConversations.API;
+using TelephoneConversations.Core.Interfaces;
+using TelephoneConversations.Core.Interfaces.IRepository;
+using TelephoneConversations.Core.Services;
+using TelephoneConversations.DataAccess.Data;
+using TelephoneConversations.DataAccess.Repository;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<ApplicationDbContext>(option =>
+{
+    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
+});
 
+builder.Services.AddScoped<ISubscriberRepository, SubscriberRepository>();
+builder.Services.AddScoped<ICityRepository, CityRepository>();
+builder.Services.AddScoped<ITariffRepository, TariffRepository>();
+builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
+builder.Services.AddScoped<ICallRepository, CallRepository>();
+
+builder.Services.AddScoped<ICallService, CallService>();
+
+builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
