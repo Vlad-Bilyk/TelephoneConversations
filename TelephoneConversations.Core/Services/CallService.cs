@@ -66,7 +66,7 @@ namespace TelephoneConversations.Core.Services
 
         private static decimal CalculateBaseCost(Call call, decimal tariffRate)
         {
-            return (call.Duration / 60) * tariffRate;
+            return ((decimal)call.Duration / 60m) * tariffRate;
         }
 
         private static decimal CalculateCostWithDiscount(decimal baseCost, decimal discountRate)
