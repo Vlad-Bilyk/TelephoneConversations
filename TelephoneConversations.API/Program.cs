@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using TelephoneConversations.API;
+using TelephoneConversations.Core.Interfaces;
+using TelephoneConversations.Core.Interfaces.IRepository;
+using TelephoneConversations.Core.Services;
 using TelephoneConversations.DataAccess.Data;
 using TelephoneConversations.DataAccess.Repository;
-using TelephoneConversations.DataAccess.Repository.IRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,9 @@ builder.Services.AddScoped<ISubscriberRepository, SubscriberRepository>();
 builder.Services.AddScoped<ICityRepository, CityRepository>();
 builder.Services.AddScoped<ITariffRepository, TariffRepository>();
 builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
+builder.Services.AddScoped<ICallRepository, CallRepository>();
+
+builder.Services.AddScoped<ICallService, CallService>();
 
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddControllers();

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using TelephoneConversations.Core.Interfaces.IRepository;
 using TelephoneConversations.Core.Models;
 using TelephoneConversations.DataAccess.Data;
-using TelephoneConversations.Core.Interfaces.IRepository;
 
 namespace TelephoneConversations.DataAccess.Repository
 {

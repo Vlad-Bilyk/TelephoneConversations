@@ -22,6 +22,9 @@ namespace TelephoneConversations.API
 
             CreateMap<Discount, DiscountDTO>().ReverseMap();
             CreateMap<Discount, DiscountCreateDTO>().ReverseMap();
+
+            CreateMap<Call, CallDTO>().ReverseMap();
+            CreateMap<Call, CallCreateDTO>().ReverseMap();
         }
     }
 }

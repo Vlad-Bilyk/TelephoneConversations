@@ -4,6 +4,9 @@ namespace TelephoneConversations.API.DTOs
 {
     public class DiscountCreateDTO
     {
+        [Range(1, int.MaxValue, ErrorMessage = "DiscountID має бути більше 0.")]
+        public int DiscountID { get; set; }
+
         [Range(1, int.MaxValue, ErrorMessage = "TariffID має бути більше 0.")]
         public int TariffID { get; set; }
 

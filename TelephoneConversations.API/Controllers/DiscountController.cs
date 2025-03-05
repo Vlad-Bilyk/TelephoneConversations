@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TelephoneConversations.API.DTOs;
-using TelephoneConversations.Core.Models;
 using TelephoneConversations.Core.Interfaces.IRepository;
+using TelephoneConversations.Core.Models;
 
 namespace TelephoneConversations.API.Controllers
 {
