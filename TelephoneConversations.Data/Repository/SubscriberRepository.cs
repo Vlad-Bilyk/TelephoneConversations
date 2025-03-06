@@ -1,5 +1,6 @@
-﻿using TelephoneConversations.Core.Interfaces.IRepository;
-using TelephoneConversations.Core.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using TelephoneConversations.Core.Interfaces.IRepository;
+using TelephoneConversations.Core.Models.Entities;
 using TelephoneConversations.DataAccess.Data;
 
 namespace TelephoneConversations.DataAccess.Repository
@@ -12,6 +13,18 @@ namespace TelephoneConversations.DataAccess.Repository
             : base(db)
         {
             _db = db;
+        }
+
+        public async Task<IEnumerable<Subscriber>> SearchSubscribersAsync(string companyName, CancellationToken cancellationToken = default)
+        {
+            if (string.IsNullOrWhiteSpace(companyName))
+            {
+                return await _db.Subscribers.ToListAsync(cancellationToken);
+            }
+
+            return await _db.Subscribers
+                .Where(s => s.CompanyName.ToLower().Contains(companyName.ToLower()))
+                .ToListAsync(cancellationToken);
         }
 
         public async Task<Subscriber> UpdateAsync(Subscriber entity)

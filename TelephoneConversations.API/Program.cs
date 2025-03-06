@@ -8,7 +8,19 @@ using TelephoneConversations.DataAccess.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+
 // Add services to the container.
+
+// CORS
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowFrontend",
+//        policy => policy.WithOrigins("http://127.0.0.1:5500") // frontend address
+//                        .AllowAnyHeader()
+//                        .AllowAnyMethod());
+//});
+
 builder.Services.AddDbContext<ApplicationDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
@@ -21,6 +33,8 @@ builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
 builder.Services.AddScoped<ICallRepository, CallRepository>();
 
 builder.Services.AddScoped<ICallService, CallService>();
+builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddControllers();
@@ -37,7 +51,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseStaticFiles();
+
 app.UseHttpsRedirection();
+
+// app.UseCors("AllowFrontend"); //Use CORS
 
 app.UseAuthorization();
 

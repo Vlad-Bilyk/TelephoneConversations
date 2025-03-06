@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ua">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <title>ДзвінКод</title>
+</head>
+<body>
+    <script src="/js/checkAuth.js"></script>
+    <div class="wrapper">   
+        <div class="sidebar"> 
+			<div class="logo">
+				<img src="img/Icon.svg" alt="">
+			</div>
+			<p>Main Menu</p>
+			<div class="menu">
+				<nav>
+					<ul class="menu-list">
+						<li class="item-list">
+                            <img src="img/menu-icon/person.svg" data-menu-id="abonents" alt="">
+                            <a class="item-link" href="/subscriber.html">Абоненти</a></li>
+						<li class="item-list active">
+                            <img src="img/menu-icon/a-phone.svg" data-menu-id="calls" alt="">
+                            <a class="item-link" href="">Дзвінки</a></li>
+                        <li class="item-list">
+                            <img src="img/menu-icon/tarrif.svg" data-menu-id="tariffs" alt="">
+                            <a class="item-link" href="/tarrif.html">Тарифи</a></li>
+                        <li class="item-list">
+                            <img src="img/menu-icon/discont.svg" data-menu-id="discounts" alt="">
+                            <a class="item-link" href="/discont.html">Знижки</a></li>
+                        <li class="item-list">
+                            <img src="img/menu-icon/cities.svg" data-menu-id="cities" alt="">
+                            <a class="item-link" href="/city.html">Міста</a></li>
+                        <li class="item-list">
+                            <img src="img/menu-icon/statement.svg" data-menu-id="statements" alt="">
+                            <a class="item-link" href="/statement.html">Відомості</a></li>
+					</ul>
+				</nav>
+			</div>
+            <div class="receipt-window" style="display: none;">
+                <div class="receipt-window-container">
+                    <p>Рахунок на оплату</p>
+                    <form class="receipt-window-form" method="GET">
+
+                        <div class="receipt-window-form-container" id="receipt-window-form-container">
+                            <label class="label-receipt label-receipt-id" for="receipt-id">ID:</label>
+                            <input class="receipt receipt-id" type="text" id="receipt-id" name="receipt-id" required>
+                            
+                            <label class="label-receipt label-receipt-from-date" for="receipt-from-date">Від:</label>
+                            <input class="receipt receipt-from-date" type="date" id="receipt-from-date" name="receipt-from-date" required>
+                            
+                            <label class="label-receipt label-receipt-to-date" for="receipt-to-date">До:</label>
+                            <input class="receipt receipt-to-date" type="date" id="receipt-to-date" name="receipt-to-date" required>
+                        </div>
+                        <div class="receipt-btn-container">
+                            <button class="create-receipt-button" type="submit">Сформувати</button>
+                            <button class="close-receipt-button" type="button">Закрити</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <button id="receipt-button" class="receipt-button">
+                Рахунок на оплату
+            </button>
+			<button id="logout-button" class="button-logout">
+                <div class="btn-container">
+                    <img src="/img/logout.svg" alt="">
+                    Вихід
+                </div>
+            </button>
+        </div>
+        <div class="main-container">
+            <header class="header">
+                <p class="user-name"></p>
+                <img src="img/user.png" alt="" class="user-img">
+            </header>
+            <div class="menu-tools">
+                <h1 class="menu-tools-title">Дзвінки</h1>
+
+                <form class="filter-form">
+                    <input class="filter-input" type="text" id="filter-form-1" placeholder="Компанія">
+                    <input class="filter-input" type="text" id="filter-form-2" placeholder="Місто">
+
+                    <button class="filter-form-button" type="submit">
+                        <img src="img/filter-btn.svg" alt="">
+                    </button>
+                </form>
+
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ідентифікатор дзвінка</th>
+                            <th>Назва компанії</th>
+                            <th>Назва міста</th>
+                            <th>Дата та час дзвінка</th>
+                            <th>Тривалість</th>
+                            <th>Час доби</th>
+                            <th>Базова вартість</th>
+                            <th>Знижка</th>
+                            <th>Кінцева вартість</th>
+                        </tr>
+                    </thead>
+                    <tbody id="CallsTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="/js/receipt.js"></script>
+    <script src="/js/search.js"></script>
+    <script src="/js/table.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

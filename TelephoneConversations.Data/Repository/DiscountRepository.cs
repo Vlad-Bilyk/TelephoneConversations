@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TelephoneConversations.Core.Interfaces.IRepository;
-using TelephoneConversations.Core.Models;
+using TelephoneConversations.Core.Models.Entities;
 using TelephoneConversations.DataAccess.Data;
 
 namespace TelephoneConversations.DataAccess.Repository
@@ -28,6 +28,13 @@ namespace TelephoneConversations.DataAccess.Repository
 
             return await _db.Discounts.FirstOrDefaultAsync(d =>
                 durationInMinutes >= d.DurationMin && durationInMinutes < d.DurationMax);
+        }
+
+        public async Task<IEnumerable<Discount>> SearchDiscountsAsync(int tariffId, CancellationToken cancellationToken = default)
+        {
+            return await _db.Discounts
+                .Where(d => d.TariffID == tariffId)
+                .ToListAsync(cancellationToken);
         }
     }
 }

@@ -31,7 +31,8 @@ namespace TelephoneConversations.DataAccess.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CallID"));
 
                     b.Property<decimal>("BaseCost")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<DateTime>("CallDate")
                         .HasColumnType("datetime2");
@@ -40,10 +41,12 @@ namespace TelephoneConversations.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("CostWithDiscount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<decimal>("Discount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<int>("Duration")
                         .HasColumnType("int");
@@ -84,11 +87,11 @@ namespace TelephoneConversations.DataAccess.Migrations
 
             modelBuilder.Entity("TelephoneConversations.Core.Models.Discount", b =>
                 {
-                    b.Property<int>("TariffID")
+                    b.Property<int>("DiscountID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("DiscountID")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiscountID"));
 
                     b.Property<decimal>("DiscountRate")
                         .HasColumnType("decimal(18,2)");
@@ -99,7 +102,12 @@ namespace TelephoneConversations.DataAccess.Migrations
                     b.Property<int>("DurationMin")
                         .HasColumnType("int");
 
-                    b.HasKey("TariffID", "DiscountID");
+                    b.Property<int>("TariffID")
+                        .HasColumnType("int");
+
+                    b.HasKey("DiscountID");
+
+                    b.HasIndex("TariffID");
 
                     b.ToTable("Discounts", t =>
                         {
@@ -155,10 +163,12 @@ namespace TelephoneConversations.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("DayPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<decimal>("NightPrice")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.HasKey("TariffID");
 
