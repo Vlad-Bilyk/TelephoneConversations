@@ -82,5 +82,14 @@ namespace TelephoneConversations.DataAccess.Repository
                 .Where(c => c.CallDate >= fromDate && c.CallDate <= toDate)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Call>> GetSubscribersCallsForPeriod(int subscriberId, DateTime fromDate, DateTime toDate)
+        {
+            return await _db.Calls
+                .Where(c => c.SubscriberID == subscriberId &&
+                            c.CallDate >= fromDate && c.CallDate <= toDate.AddDays(1))
+                .Include(c => c.Subscriber)
+                .ToListAsync();
+        }
     }
 }

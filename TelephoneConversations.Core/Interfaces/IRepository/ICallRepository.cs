@@ -5,6 +5,7 @@ namespace TelephoneConversations.Core.Interfaces.IRepository
 {
     public interface ICallRepository
     {
+        Task<IEnumerable<Call>> GetSubscribersCallsForPeriod(int subscriberId, DateTime fromDate, DateTime toDate);
         Task<IEnumerable<Call>> GetCallsByDateRangeAsync(DateTime fromDate, DateTime toDate);
         Task<IEnumerable<Call>> SearchСallsAsync(string? cityName, string? subscriberName, CancellationToken cancellationToken = default);
         Task<List<Call>> GetAllAsync(Expression<Func<Call, bool>>? filter = null);

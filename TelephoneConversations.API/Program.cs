@@ -1,3 +1,4 @@
+using QuestPDF;
 using Microsoft.EntityFrameworkCore;
 using TelephoneConversations.API;
 using TelephoneConversations.Core.Interfaces;
@@ -7,6 +8,8 @@ using TelephoneConversations.DataAccess.Data;
 using TelephoneConversations.DataAccess.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
+
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 
 // Add services to the container.
 builder.Services.AddCors(options =>
@@ -29,6 +32,8 @@ builder.Services.AddScoped<IDiscountRepository, DiscountRepository>();
 builder.Services.AddScoped<ICallRepository, CallRepository>();
 
 builder.Services.AddScoped<ICallService, CallService>();
+builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IInvoiceService, InvoiceService>();
 
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddControllers();
