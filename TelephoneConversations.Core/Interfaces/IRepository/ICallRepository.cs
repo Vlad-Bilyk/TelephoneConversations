@@ -1,5 +1,5 @@
 ﻿using System.Linq.Expressions;
-using TelephoneConversations.Core.Models;
+using TelephoneConversations.Core.Models.Entities;
 
 namespace TelephoneConversations.Core.Interfaces.IRepository
 {

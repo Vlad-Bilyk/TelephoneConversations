@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using TelephoneConversations.Core.Interfaces;
 using TelephoneConversations.Core.Interfaces.IRepository;
-using TelephoneConversations.Core.Models;
+using TelephoneConversations.Core.Models.Entities;
 
 namespace TelephoneConversations.Core.Services
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using TelephoneConversations.Core.Interfaces.IRepository;
-using TelephoneConversations.Core.Models;
+using TelephoneConversations.Core.Models.Entities;
 using TelephoneConversations.DataAccess.Data;
 
 namespace TelephoneConversations.DataAccess.Repository

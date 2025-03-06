@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace TelephoneConversations.Core.Models
+namespace TelephoneConversations.Core.Models.Entities
 {
     public class Tariff
     {

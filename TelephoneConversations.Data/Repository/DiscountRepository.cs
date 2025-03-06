@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TelephoneConversations.Core.Interfaces.IRepository;
-using TelephoneConversations.Core.Models;
+using TelephoneConversations.Core.Models.Entities;
 using TelephoneConversations.DataAccess.Data;
 
 namespace TelephoneConversations.DataAccess.Repository

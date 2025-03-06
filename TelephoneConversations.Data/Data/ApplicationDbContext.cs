@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TelephoneConversations.Core.Models;
+using TelephoneConversations.Core.Models.Entities;
 
 namespace TelephoneConversations.DataAccess.Data
 {
