@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using TelephoneConversations.API.DTOs;
+using TelephoneConversations.Core.Models.DTOs;
 using TelephoneConversations.Core.Interfaces;
 using TelephoneConversations.Core.Models;
 

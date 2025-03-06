@@ -1,13 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TelephoneConversations.API.DTOs
+namespace TelephoneConversations.Core.Models.DTOs
 {
-    public class TariffDTO
+    public class TariffCreateDTO
     {
-        [Key]
-        [Range(1, int.MaxValue, ErrorMessage = "TariffID має бути більше 0.")]
-        public int TariffID { get; set; }
-
+        [Required]
         public int CityID { get; set; }
 
         [Required]

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using TelephoneConversations.Core.Models;
 
-namespace TelephoneConversations.API.DTOs
+namespace TelephoneConversations.Core.Models.DTOs
 {
     public class CallDTO
     {

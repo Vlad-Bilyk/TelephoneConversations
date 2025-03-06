@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TelephoneConversations.API.DTOs
+namespace TelephoneConversations.Core.Models.DTOs
 {
-    public class DiscountCreateDTO
+    public class DiscountDTO
     {
+        [Key]
         [Range(1, int.MaxValue, ErrorMessage = "DiscountID має бути більше 0.")]
         public int DiscountID { get; set; }
 

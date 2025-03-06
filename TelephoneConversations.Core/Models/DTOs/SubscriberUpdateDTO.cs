@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TelephoneConversations.API.DTOs
+namespace TelephoneConversations.Core.Models.DTOs
 {
-    public class SubscriberDTO
+    public class SubscriberUpdateDTO
     {
         [Key]
         [Range(1, int.MaxValue, ErrorMessage = "SubscriberID має бути більше 0.")]

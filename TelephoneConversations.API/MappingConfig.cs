@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using TelephoneConversations.API.DTOs;
+using TelephoneConversations.Core.Models.DTOs;
 using TelephoneConversations.Core.Models;
 
 namespace TelephoneConversations.API
