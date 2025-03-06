@@ -1,8 +1,8 @@
 ﻿namespace TelephoneConversations.Core.Models.DTOs
 {
-    public class CityReportDTO
+    public class SubscriberReportDTO
     {
-        public string CityName { get; set; }
+        public string SubscriberName { get; set; }
         public int TotalCalls { get; set; }
         public decimal TotalMinutes { get; set; }
         public double AverageCallDuration { get; set; }

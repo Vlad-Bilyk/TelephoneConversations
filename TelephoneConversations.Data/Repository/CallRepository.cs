@@ -73,5 +73,14 @@ namespace TelephoneConversations.DataAccess.Repository
 
             return await query.ToListAsync(cancellationToken);
         }
+
+        public async Task<IEnumerable<Call>> GetCallsByDateRangeAsync(DateTime fromDate, DateTime toDate)
+        {
+            return await _db.Calls
+                .Include(c => c.City)
+                .Include(c => c.Subscriber)
+                .Where(c => c.CallDate >= fromDate && c.CallDate <= toDate)
+                .ToListAsync();
+        }
     }
 }
