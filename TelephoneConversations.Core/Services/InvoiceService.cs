@@ -146,7 +146,7 @@ namespace TelephoneConversations.Core.Services
                 TotalDiscount = totalDiscount,
                 VATPercentage = 20m,
                 VATAmount = vatAmount,
-                TotalAmountWithVAT= totalAmountWithVAT,
+                TotalAmountWithVAT = totalAmountWithVAT,
             };
 
             return invoiceData;

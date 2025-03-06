@@ -5,7 +5,7 @@
 namespace TelephoneConversations.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class AddEntytiesToDB : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -47,8 +47,8 @@ namespace TelephoneConversations.DataAccess.Migrations
                     TariffID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CityID = table.Column<int>(type: "int", nullable: false),
-                    DayPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    NightPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    DayPrice = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
+                    NightPrice = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -72,9 +72,9 @@ namespace TelephoneConversations.DataAccess.Migrations
                     CallDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: false),
                     TimeOfDay = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BaseCost = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CostWithDiscount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    BaseCost = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
+                    Discount = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
+                    CostWithDiscount = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -97,7 +97,8 @@ namespace TelephoneConversations.DataAccess.Migrations
                 name: "Discounts",
                 columns: table => new
                 {
-                    DiscountID = table.Column<int>(type: "int", nullable: false),
+                    DiscountID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     TariffID = table.Column<int>(type: "int", nullable: false),
                     DurationMin = table.Column<int>(type: "int", nullable: false),
                     DurationMax = table.Column<int>(type: "int", nullable: false),
@@ -105,7 +106,7 @@ namespace TelephoneConversations.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Discounts", x => new { x.TariffID, x.DiscountID });
+                    table.PrimaryKey("PK_Discounts", x => x.DiscountID);
                     table.CheckConstraint("CK_Discount_Duration", "[DurationMax] >= [DurationMin]");
                     table.ForeignKey(
                         name: "FK_Discounts_Tariffs_TariffID",
@@ -124,6 +125,11 @@ namespace TelephoneConversations.DataAccess.Migrations
                 name: "IX_Calls_SubscriberID",
                 table: "Calls",
                 column: "SubscriberID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Discounts_TariffID",
+                table: "Discounts",
+                column: "TariffID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tariffs_CityID",

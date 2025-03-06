@@ -26,7 +26,11 @@ namespace TelephoneConversations.DataAccess.Data
             modelBuilder.Entity<Subscriber>()
                 .ToTable(t => t.HasCheckConstraint("CK_Subscriber_BankAccount", "LEFT([BankAccount], 2) = 'UA'"));
 
-            modelBuilder.Entity<Discount>().HasKey(d => new { d.TariffID, d.DiscountID });
+            modelBuilder.Entity<Discount>()
+                .HasOne(d => d.Tariff)
+                .WithMany(t => t.Discounts)
+                .HasForeignKey(d => d.TariffID)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

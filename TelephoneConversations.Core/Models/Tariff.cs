@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace TelephoneConversations.Core.Models
 {
@@ -14,10 +15,12 @@ namespace TelephoneConversations.Core.Models
 
         [Required]
         [Range(0, double.MaxValue, ErrorMessage = "DayPrice не може бути від’ємним.")]
+        [Precision(10, 2)]
         public decimal DayPrice { get; set; }
 
         [Required]
         [Range(0, double.MaxValue, ErrorMessage = "NightPrice не може бути від’ємним.")]
+        [Precision(10, 2)]
         public decimal NightPrice { get; set; }
 
         public ICollection<Discount> Discounts { get; set; }

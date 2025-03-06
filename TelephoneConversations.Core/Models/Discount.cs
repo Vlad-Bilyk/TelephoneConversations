@@ -5,6 +5,7 @@ namespace TelephoneConversations.Core.Models
 
     public class Discount
     {
+        [Key]
         [Range(1, int.MaxValue, ErrorMessage = "DiscountID має бути більше 0.")]
         public int DiscountID { get; set; }
 
