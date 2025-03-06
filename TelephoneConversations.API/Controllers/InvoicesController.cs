@@ -17,11 +17,11 @@ namespace TelephoneConversations.API.Controllers
         [HttpGet("{subscriberId}/download")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetInvoicePdf(int subscriberId)
+        public async Task<IActionResult> GetInvoicePdf(int subscriberId, DateTime fromDate, DateTime toDate)
         {
             var path = Path.Combine("D:\\Invoices", "invoice_test.pdf");
 
-            var invoiceData = await _invoiceService.GetInvoiceDataAsync(subscriberId);
+            var invoiceData = await _invoiceService.GetInvoiceDataAsync(subscriberId, fromDate, toDate);
             if (invoiceData == null)
             {
                 return NotFound("Invoice data not found");
