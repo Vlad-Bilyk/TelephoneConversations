@@ -19,7 +19,10 @@ namespace TelephoneConversations.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetInvoicePdf(int subscriberId, DateTime fromDate, DateTime toDate)
         {
-            var path = Path.Combine("D:\\Invoices", "invoice_test.pdf");
+            if (fromDate > toDate)
+            {
+                return BadRequest("Дата початку не може бути пізнішою за дату кінця.");
+            }
 
             var invoiceData = await _invoiceService.GetInvoiceDataAsync(subscriberId, fromDate, toDate);
             if (invoiceData == null)
@@ -30,9 +33,7 @@ namespace TelephoneConversations.API.Controllers
             var pdfBytes = _invoiceService.GenerateInvoicePdf(invoiceData);
             var fileName = $"Invoice_{subscriberId}_{DateTime.Now.ToShortDateString}.pdf";
 
-            await System.IO.File.WriteAllBytesAsync(path, pdfBytes);
-
-            return Ok(File(pdfBytes, "application/pdf", fileName));
+            return File(pdfBytes, "application/pdf", fileName);
         }
     }
 }

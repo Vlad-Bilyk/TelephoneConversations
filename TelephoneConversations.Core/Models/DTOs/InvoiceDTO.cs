@@ -21,6 +21,8 @@
         public string InvoiceNumber { get; set; }
         public DateTime InvoiceDate { get; set; }
         public DateTime PaymentDueDate { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
 
         // service
         public string ServiceName { get; set; }

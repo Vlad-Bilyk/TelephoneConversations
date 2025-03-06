@@ -28,7 +28,7 @@ namespace TelephoneConversations.Core.Services
             return await _callRepository.GetAsync(filter, tracked);
         }
 
-        public Task<IEnumerable<Call>> SearchСallsAsync(string cityName, string subscriberName, CancellationToken cancellationToken = default)
+        public Task<IEnumerable<Call>> SearchСallsAsync(string? cityName, string? subscriberName, CancellationToken cancellationToken = default)
         {
             return _callRepository.SearchСallsAsync(cityName, subscriberName, cancellationToken);
         }
@@ -71,12 +71,12 @@ namespace TelephoneConversations.Core.Services
 
         private static decimal CalculateBaseCost(Call call, decimal tariffRate)
         {
-            return ((decimal)call.Duration / 60m) * tariffRate;
+            return Math.Round(((call.Duration / 60m) * tariffRate), 2);
         }
 
         private static decimal CalculateCostWithDiscount(decimal baseCost, decimal discountRate)
         {
-            return baseCost * (1 - discountRate / 100m);
+            return Math.Round((baseCost * (1 - discountRate / 100m)), 2);
         }
     }
 }

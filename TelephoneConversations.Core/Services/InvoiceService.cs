@@ -17,7 +17,7 @@ namespace TelephoneConversations.Core.Services
             this.callRepository = callRepository;
         }
 
-        public byte[] GenerateInvoicePdf(InvoiceDTO data)
+        public byte[] GenerateInvoicePdf(InvoiceDTO invoice)
         {
             var pdf = Document.Create(container =>
             {
@@ -31,27 +31,27 @@ namespace TelephoneConversations.Core.Services
                     {
                         // Інформація про постачальника
                         col.Item().Text("Постачальник:").FontSize(14).SemiBold();
-                        col.Item().Text($"Назва компанії: {data.ProviderName}");
-                        col.Item().Text($"Адреса: {data.ProviderAddress}");
-                        col.Item().Text($"Телефон: {data.ProviderPhone}");
-                        col.Item().Text($"ЄДРПОУ: {data.ProviderEDRPOU}");
+                        col.Item().Text($"Назва компанії: {invoice.ProviderName}");
+                        col.Item().Text($"Адреса: {invoice.ProviderAddress}");
+                        col.Item().Text($"Телефон: {invoice.ProviderPhone}");
+                        col.Item().Text($"ЄДРПОУ: {invoice.ProviderEDRPOU}");
                         col.Item().Text("Банківські реквізити:");
-                        col.Item().Text($"Банк: {data.ProviderBank}, МФО: {data.ProviderMFO}");
-                        col.Item().Text($"Рахунок: {data.ProviderBankAccount}");
+                        col.Item().Text($"Банк: {invoice.ProviderBank}, МФО: {invoice.ProviderMFO}");
+                        col.Item().Text($"Рахунок: {invoice.ProviderBankAccount}");
 
                         col.Item().PaddingVertical(10);
 
                         // Інформація про клієнта (одержувача)
                         col.Item().Text("Одержувач:").FontSize(14).SemiBold();
-                        col.Item().Text($"Назва компанії: {data.SubscriberName}");
-                        col.Item().Text($"Адреса: {data.SubscriberAddress}");
-                        col.Item().Text($"Телефон: {data.SubscriberPhone}");
-                        col.Item().Text($"ЄДРПОУ: {data.SubscriberEDRPOU}");
+                        col.Item().Text($"Назва компанії: {invoice.SubscriberName}");
+                        col.Item().Text($"Адреса: {invoice.SubscriberAddress}");
+                        col.Item().Text($"Телефон: {invoice.SubscriberPhone}");
+                        col.Item().Text($"ЄДРПОУ: {invoice.SubscriberEDRPOU}");
 
                         col.Item().PaddingVertical(30);
 
                         // Заголовок (Номер рахунку)
-                        col.Item().Text($"РАХУНОК НА ОПЛАТУ № {data.InvoiceNumber}")
+                        col.Item().Text($"РАХУНОК НА ОПЛАТУ № {invoice.InvoiceNumber}")
                                     .FontSize(16).SemiBold().AlignCenter();
                         col.Item().Text($"від {DateTime.Now:dd.MM.yyyy}")
                                     .FontSize(12).SemiBold().AlignCenter();
@@ -84,30 +84,38 @@ namespace TelephoneConversations.Core.Services
                             });
 
                             // Додавання даних у таблицю (єдина послуга)
-                            table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(5).Text($"{data.ServiceName}");
-                            table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(5).Text($"{data.TotalMinutes}");
-                            table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(5).Text($"{data.AmountWithoutVAT:C}");
-                            table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(5).Text($"{data.TotalDiscount:C}");
-                            table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(5).Text($"{data.VATPercentage}%");
+                            table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(5).Text($"{invoice.ServiceName}");
+                            table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(5).Text($"{invoice.TotalMinutes}");
+                            table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(5).Text($"{invoice.AmountWithoutVAT:C}");
+                            table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(5).Text($"{invoice.TotalDiscount:C}");
+                            table.Cell().BorderBottom(1).BorderColor(Colors.Grey.Lighten2).Padding(5).Text($"{invoice.VATPercentage}%");
                         });
 
 
                         col.Item().PaddingTop(10).AlignRight().Column(totalCol =>
                         {
-                            totalCol.Item().Text($"Разом без ПДВ: {(data.AmountWithoutVAT - data.TotalDiscount):C}");
-                            totalCol.Item().Text($"ПДВ ({data.VATPercentage}%): {data.VATAmount:C}");
-                            totalCol.Item().Text($"До оплати: {data.TotalAmountWithVAT:C}").Bold();
+                            totalCol.Item().Text($"Разом без ПДВ: {(invoice.AmountWithoutVAT - invoice.TotalDiscount):C}");
+                            totalCol.Item().Text($"ПДВ ({invoice.VATPercentage}%): {invoice.VATAmount:C}");
+                            totalCol.Item().Text($"До оплати: {invoice.TotalAmountWithVAT:C}").Bold();
                         });
 
 
                         col.Item().PaddingVertical(30);
 
                         // Дата та підпис
-                        col.Item().Row(row =>
+                        col.Item().Column(column =>
                         {
-                            row.RelativeItem().AlignLeft().Text($"Дата: {DateTime.Now:dd.MM.yyyy}").FontSize(12);
-                            row.RelativeItem().AlignRight().Text("Підпис: _______________").FontSize(12);
+                            column.Item().AlignLeft().Text("Рахунок сформовано за дати:").FontSize(12);
+
+                            column.Item().Column(dateColumn =>
+                            {
+                                dateColumn.Item().AlignLeft().Text($"з {invoice.FromDate:dd.MM.yyyy}").FontSize(12);
+                                dateColumn.Item().AlignLeft().Text($"по {invoice.ToDate:dd.MM.yyyy}").FontSize(12);
+                            });
+
+                            column.Item().AlignRight().Text("Підпис: _______________").FontSize(12);
                         });
+
                     });
                 });
             });
@@ -146,6 +154,8 @@ namespace TelephoneConversations.Core.Services
                 InvoiceNumber = $"{today:yyyyMM}/{subscriberId}",
                 InvoiceDate = today,
                 PaymentDueDate = today.AddDays(10),
+                FromDate = fromDate,
+                ToDate = toDate,
 
                 ServiceName = "Міжміські переговори",
                 TotalMinutes = totalMinutes,
