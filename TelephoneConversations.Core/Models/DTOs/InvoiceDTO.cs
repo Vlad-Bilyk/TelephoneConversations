@@ -32,5 +32,7 @@
         public decimal VATPercentage { get; set; }
         public decimal VATAmount { get; set; }
         public decimal TotalAmountWithVAT { get; set; }
+
+        public string ErrorMessage { get; set; }
     }
 }

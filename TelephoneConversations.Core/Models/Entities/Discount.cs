@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace TelephoneConversations.Core.Models.Entities
 {
@@ -23,6 +24,7 @@ namespace TelephoneConversations.Core.Models.Entities
 
         [Required]
         [Range(0, 100, ErrorMessage = "DiscountRate має бути від 0 до 100.")]
+        [Precision(10, 2)]
         public decimal DiscountRate { get; set; }
     }
 }

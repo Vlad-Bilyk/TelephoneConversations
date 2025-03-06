@@ -4,6 +4,7 @@ using QuestPDF.Infrastructure;
 using TelephoneConversations.Core.Interfaces;
 using TelephoneConversations.Core.Interfaces.IRepository;
 using TelephoneConversations.Core.Models.DTOs;
+using TelephoneConversations.Core.Models.Entities;
 
 namespace TelephoneConversations.Core.Services
 {
@@ -125,48 +126,96 @@ namespace TelephoneConversations.Core.Services
 
         public async Task<InvoiceDTO> GetInvoiceDataAsync(int subscriberId, DateTime fromDate, DateTime toDate)
         {
-            var today = DateTime.Today;
-            var subscriber = await subscriberRepository.GetAsync(s => s.SubscriberID == subscriberId);
-            var calls = await callRepository.GetSubscribersCallsForPeriod(subscriberId, fromDate, toDate);
-
-            int totalMinutes = calls.Sum(c => c.Duration) / 60;
-            decimal amountWithoutVAT = calls.Sum(c => c.BaseCost);
-            decimal totalDiscount = calls.Sum(c => c.BaseCost - c.CostWithDiscount);
-            decimal vatPercentage = 20m;
-            decimal vatAmount = (amountWithoutVAT - totalDiscount) * vatPercentage / 100m;
-            decimal totalAmountWithVAT = (amountWithoutVAT - totalDiscount) + vatAmount;
-
-            var invoiceData = new InvoiceDTO
+            try
             {
-                ProviderName = "ТОВ Телефонна компанія",
-                ProviderAddress = "вул. Прикладна, 10",
-                ProviderPhone = "+380441234567",
-                ProviderEDRPOU = "12345678",
-                ProviderBank = "ПриватБанк",
-                ProviderMFO = "305299",
-                ProviderBankAccount = "UA1234567890123456789012",
+                if (subscriberId <= 0)
+                {
+                    return CreateErrorInvoice("Invalid Subscriber ID. It must be greater than zero.");
+                }
 
-                SubscriberName = subscriber.CompanyName,
-                SubscriberAddress = "вул. Тестова 12",
-                SubscriberPhone = subscriber.TelephonePoint,
-                SubscriberEDRPOU = subscriber.IPN,
+                if (fromDate > toDate)
+                {
+                    return CreateErrorInvoice("Invalid date range. FromDate cannot be greater than ToDate.");
+                }
 
-                InvoiceNumber = $"{today:yyyyMM}/{subscriberId}",
-                InvoiceDate = today,
-                PaymentDueDate = today.AddDays(10),
-                FromDate = fromDate,
-                ToDate = toDate,
+                var today = DateTime.Today;
+                var subscriber = await subscriberRepository.GetAsync(s => s.SubscriberID == subscriberId);
 
-                ServiceName = "Міжміські переговори",
-                TotalMinutes = totalMinutes,
-                AmountWithoutVAT = amountWithoutVAT,
-                TotalDiscount = totalDiscount,
-                VATPercentage = 20m,
-                VATAmount = vatAmount,
-                TotalAmountWithVAT = totalAmountWithVAT,
+                if (subscriber == null)
+                {
+                    return CreateErrorInvoice($"Subscriber with ID {subscriberId} not found.");
+                }
+
+                var calls = await callRepository.GetSubscribersCallsForPeriod(subscriberId, fromDate, toDate) ?? new List<Call>();
+
+                int totalMinutes = calls.Sum(c => c.Duration) / 60;
+                decimal amountWithoutVAT = calls.Sum(c => c.BaseCost);
+                decimal totalDiscount = calls.Sum(c => c.BaseCost - c.CostWithDiscount);
+                decimal vatPercentage = 20m;
+                decimal vatAmount = (amountWithoutVAT - totalDiscount) * vatPercentage / 100m;
+                decimal totalAmountWithVAT = (amountWithoutVAT - totalDiscount) + vatAmount;
+
+                if (amountWithoutVAT < 0 || totalAmountWithVAT < 0)
+                {
+                    return CreateErrorInvoice("Invoice calculation resulted in negative values.");
+                }
+
+                return new InvoiceDTO
+                {
+                    ProviderName = "ТОВ Телефонна компанія",
+                    ProviderAddress = "вул. Прикладна, 10",
+                    ProviderPhone = "+380441234567",
+                    ProviderEDRPOU = "12345678",
+                    ProviderBank = "ПриватБанк",
+                    ProviderMFO = "305299",
+                    ProviderBankAccount = "UA1234567890123456789012",
+
+                    SubscriberName = subscriber.CompanyName,
+                    SubscriberAddress = "вул. Тестова 12",
+                    SubscriberPhone = subscriber.TelephonePoint,
+                    SubscriberEDRPOU = subscriber.IPN,
+
+                    InvoiceNumber = $"{today:yyyyMM}/{subscriberId}",
+                    InvoiceDate = today,
+                    PaymentDueDate = today.AddDays(10),
+                    FromDate = fromDate,
+                    ToDate = toDate,
+
+                    ServiceName = "Міжміські переговори",
+                    TotalMinutes = totalMinutes,
+                    AmountWithoutVAT = amountWithoutVAT,
+                    TotalDiscount = totalDiscount,
+                    VATPercentage = vatPercentage,
+                    VATAmount = vatAmount,
+                    TotalAmountWithVAT = totalAmountWithVAT
+                };
+            }
+            catch (Exception ex)
+            {
+                return CreateErrorInvoice("An unexpected error occurred while generating the invoice.");
+            }
+        }
+
+        private InvoiceDTO CreateErrorInvoice(string errorMessage)
+        {
+            return new InvoiceDTO
+            {
+                ProviderName = "Error",
+                ServiceName = "Error",
+                SubscriberName = "Error",
+                InvoiceNumber = "Error",
+                InvoiceDate = DateTime.MinValue,
+                PaymentDueDate = DateTime.MinValue,
+                FromDate = DateTime.MinValue,
+                ToDate = DateTime.MinValue,
+                TotalMinutes = 0,
+                AmountWithoutVAT = 0,
+                TotalDiscount = 0,
+                VATPercentage = 0,
+                VATAmount = 0,
+                TotalAmountWithVAT = 0,
+                ErrorMessage = errorMessage
             };
-
-            return invoiceData;
         }
     }
 }
