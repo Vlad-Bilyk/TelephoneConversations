@@ -8,12 +8,12 @@ namespace TelephoneConversations.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CallController : ControllerBase
+    public class CallsController : ControllerBase
     {
         private readonly ICallService _callService;
         private readonly IMapper _mapper;
 
-        public CallController(ICallService callService, IMapper mapper)
+        public CallsController(ICallService callService, IMapper mapper)
         {
             _callService = callService;
             _mapper = mapper;

@@ -8,106 +8,106 @@ namespace TelephoneConversations.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CityController : ControllerBase
+    public class TariffsController : ControllerBase
     {
-        private readonly ICityRepository _dbCity;
+        private readonly ITariffRepository _dbTariff;
         private readonly IMapper _mapper;
 
-        public CityController(ICityRepository dbCity, IMapper mapper)
+        public TariffsController(ITariffRepository dbTariff, IMapper mapper)
         {
-            _dbCity = dbCity;
+            _dbTariff = dbTariff;
             _mapper = mapper;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<CityDTO>>> GetCitys()
+        public async Task<ActionResult<IEnumerable<TariffDTO>>> GetTariffs()
         {
-            IEnumerable<City> cityList = await _dbCity.GetAllAsync();
-            return Ok(_mapper.Map<List<CityDTO>>(cityList));
+            IEnumerable<Tariff> tariffList = await _dbTariff.GetAllAsync();
+            return Ok(_mapper.Map<List<TariffDTO>>(tariffList));
         }
 
-        [HttpGet("{id:int}", Name = "GetCity")]
+        [HttpGet("{id:int}", Name = "GetTariff")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<CityDTO>> GetCity(int id)
+        public async Task<ActionResult<TariffDTO>> GetTariff(int id)
         {
             if (id == 0)
             {
                 return BadRequest();
             }
-            var city = await _dbCity.GetAsync(u => u.CityID == id);
-            if (city == null)
+            var tariff = await _dbTariff.GetAsync(u => u.TariffID == id);
+            if (tariff == null)
             {
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<CityDTO>(city));
+            return Ok(_mapper.Map<TariffDTO>(tariff));
         }
 
         [HttpGet("search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<CityDTO>> SearchCities(string cityName)
+        public async Task<ActionResult<TariffDTO>> SearchTariffs(int cityId)
         {
-            var cities = await _dbCity.SearchCitiesAsync(cityName);
-            return Ok(_mapper.Map<List<CityDTO>>(cities));
+            var tariffs = await _dbTariff.SearchTariffsAsync(cityId);
+            return Ok(_mapper.Map<List<TariffDTO>>(tariffs));
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<CityDTO>> CreateCity([FromBody] CityCreateDTO createDTO)
+        public async Task<ActionResult<TariffDTO>> CreateTariff([FromBody] TariffCreateDTO createDTO)
         {
             if (createDTO == null)
             {
                 return BadRequest();
             }
 
-            if (await _dbCity.GetAsync(u => u.CityName.ToLower() == createDTO.CityName.ToLower()) != null)
+            if (await _dbTariff.GetAsync(u => u.CityID == createDTO.CityID) != null)
             {
-                ModelState.AddModelError("CustomError", "City already Exists!");
+                ModelState.AddModelError("CustomError", "Tariff already Exists!");
                 return BadRequest();
             }
 
-            City city = _mapper.Map<City>(createDTO);
-            await _dbCity.CreateAsync(city);
+            Tariff tariff = _mapper.Map<Tariff>(createDTO);
+            await _dbTariff.CreateAsync(tariff);
 
-            return CreatedAtRoute("GetCity", new { id = city.CityID }, city);
+            return CreatedAtRoute("GetTariff", new { id = tariff.TariffID }, tariff);
         }
 
-        [HttpPut("{id:int}", Name = "UpdateCity")]
+        [HttpPut("{id:int}", Name = "UpdateTariff")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateCity(int id, [FromBody] CityDTO updateDTO)
+        public async Task<IActionResult> UpdateTariff(int id, [FromBody] TariffDTO updateDTO)
         {
-            if (updateDTO == null || id != updateDTO.CityID)
+            if (updateDTO == null || id != updateDTO.TariffID)
             {
                 return BadRequest();
             }
 
-            City model = _mapper.Map<City>(updateDTO);
-            await _dbCity.UpdateAsync(model);
+            Tariff model = _mapper.Map<Tariff>(updateDTO);
+            await _dbTariff.UpdateAsync(model);
             return NoContent();
         }
 
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpDelete("{id:int}", Name = "DeleteCity")]
-        public async Task<IActionResult> DeleteCity(int id)
+        [HttpDelete("{id:int}", Name = "DeleteTariff")]
+        public async Task<IActionResult> DeleteTariff(int id)
         {
             if (id == 0)
             {
                 return BadRequest();
             }
-            var city = await _dbCity.GetAsync(u => u.CityID == id);
-            if (city == null)
+            var tariff = await _dbTariff.GetAsync(u => u.TariffID == id);
+            if (tariff == null)
             {
                 return NotFound();
             }
-            await _dbCity.RemoveAsync(city);
+            await _dbTariff.RemoveAsync(tariff);
             return NoContent();
         }
     }
