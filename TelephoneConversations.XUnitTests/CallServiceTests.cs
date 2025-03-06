@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using TelephoneConversations.Core.Models;
+using TelephoneConversations.Core.Models.Entities;
 using TelephoneConversations.Core.Services;
 
 namespace TelephoneConversations.Tests
