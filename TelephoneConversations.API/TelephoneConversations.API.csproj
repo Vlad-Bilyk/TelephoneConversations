@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TelephoneConversations.Core\TelephoneConversations.Core.csproj" />
     <ProjectReference Include="..\TelephoneConversations.Data\TelephoneConversations.DataAccess.csproj" />
   </ItemGroup>
 

@@ -6,5 +6,6 @@ namespace TelephoneConversations.Core.Interfaces.IRepository
     {
         Task<Discount> UpdateAsync(Discount entity);
         Task<Discount> GetDiscountByDurationAsync(int durationInSeconds);
+        Task<IEnumerable<Discount>> SearchDiscountsAsync(int tariffId, CancellationToken cancellationToken = default);
     }
 }

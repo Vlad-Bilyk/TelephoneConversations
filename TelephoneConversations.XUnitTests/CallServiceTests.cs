@@ -1,6 +1,4 @@
-﻿using Moq;
-using System.Reflection;
-using TelephoneConversations.Core.Interfaces.IRepository;
+﻿using System.Reflection;
 using TelephoneConversations.Core.Models;
 using TelephoneConversations.Core.Services;
 

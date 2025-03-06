@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TelephoneConversations.Core.Models;
 
 namespace TelephoneConversations.API.DTOs
 {
@@ -8,9 +9,9 @@ namespace TelephoneConversations.API.DTOs
         [Range(1, int.MaxValue, ErrorMessage = "CallID має бути більше 0.")]
         public int CallID { get; set; }
 
-        public int SubscriberID { get; set; }
+        public string SubscriberName { get; set; }
 
-        public int CityID { get; set; }
+        public string CityName { get; set; }
 
         [Required]
         public DateTime CallDate { get; set; }

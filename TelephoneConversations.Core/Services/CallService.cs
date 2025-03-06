@@ -28,6 +28,11 @@ namespace TelephoneConversations.Core.Services
             return await _callRepository.GetAsync(filter, tracked);
         }
 
+        public Task<IEnumerable<Call>> SearchСallsAsync(string cityName, string subscriberName, CancellationToken cancellationToken = default)
+        {
+            return _callRepository.SearchСallsAsync(cityName, subscriberName, cancellationToken);
+        }
+
         public async Task<Call> CreateCallAsync(Call call)
         {
             if (call == null)

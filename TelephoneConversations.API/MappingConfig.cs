@@ -23,7 +23,12 @@ namespace TelephoneConversations.API
             CreateMap<Discount, DiscountDTO>().ReverseMap();
             CreateMap<Discount, DiscountCreateDTO>().ReverseMap();
 
-            CreateMap<Call, CallDTO>().ReverseMap();
+            CreateMap<Call, CallDTO>()
+                .ForMember(dest => dest.SubscriberName,
+                opt => opt.MapFrom(src => src.Subscriber.CompanyName))
+                .ForMember(dest => dest.CityName,
+                opt => opt.MapFrom(src => src.City.CityName));
+            CreateMap<CallDTO, Call>();
             CreateMap<Call, CallCreateDTO>().ReverseMap();
         }
     }

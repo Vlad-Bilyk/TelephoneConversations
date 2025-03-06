@@ -39,7 +39,9 @@ namespace TelephoneConversations.DataAccess.Repository
 
         public async Task<List<Call>> GetAllAsync(Expression<Func<Call, bool>>? filter = null)
         {
-            IQueryable<Call> query = _db.Calls;
+            IQueryable<Call> query = _db.Calls
+                .Include(c => c.City)
+                .Include(s => s.Subscriber);
 
             if (filter != null)
             {
@@ -52,6 +54,24 @@ namespace TelephoneConversations.DataAccess.Repository
         public async Task SaveAsync()
         {
             await _db.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Call>> SearchСallsAsync(string? cityName, string? subscriberName, CancellationToken cancellationToken = default)
+        {
+            IQueryable<Call> query = _db.Calls
+                .Include(c => c.City)
+                .Include(s => s.Subscriber);
+
+            if (!string.IsNullOrWhiteSpace(cityName))
+            {
+                query = query.Where(c => c.City.CityName.ToLower().Contains(cityName.ToLower()));
+            }
+            if (!string.IsNullOrWhiteSpace(subscriberName))
+            {
+                query = query.Where(c => c.Subscriber.CompanyName.ToLower().Contains(subscriberName.ToLower()));
+            }
+
+            return await query.ToListAsync(cancellationToken);
         }
     }
 }

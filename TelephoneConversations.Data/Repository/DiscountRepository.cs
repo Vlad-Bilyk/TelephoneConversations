@@ -29,5 +29,12 @@ namespace TelephoneConversations.DataAccess.Repository
             return await _db.Discounts.FirstOrDefaultAsync(d =>
                 durationInMinutes >= d.DurationMin && durationInMinutes < d.DurationMax);
         }
+
+        public async Task<IEnumerable<Discount>> SearchDiscountsAsync(int tariffId, CancellationToken cancellationToken = default)
+        {
+            return await _db.Discounts
+                .Where(d => d.TariffID == tariffId)
+                .ToListAsync(cancellationToken);
+        }
     }
 }

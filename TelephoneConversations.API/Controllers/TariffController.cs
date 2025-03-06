@@ -46,6 +46,14 @@ namespace TelephoneConversations.API.Controllers
             return Ok(_mapper.Map<TariffDTO>(tariff));
         }
 
+        [HttpGet("search")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<TariffDTO>> SearchTariffs(int cityId)
+        {
+            var tariffs = await _dbTariff.SearchTariffsAsync(cityId);
+            return Ok(_mapper.Map<List<TariffDTO>>(tariffs));
+        }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

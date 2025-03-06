@@ -46,6 +46,14 @@ namespace TelephoneConversations.API.Controllers
             return Ok(_mapper.Map<CityDTO>(city));
         }
 
+        [HttpGet("search")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<CityDTO>> SearchCities(string cityName)
+        {
+            var cities = await _dbCity.SearchCitiesAsync(cityName);
+            return Ok(_mapper.Map<List<CityDTO>>(cities));
+        }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
