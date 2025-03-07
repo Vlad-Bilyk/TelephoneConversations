@@ -13,15 +13,16 @@ namespace TelephoneConversations.Core.Models.Entities
         public string CompanyName { get; set; }
 
         [Required]
-        [MaxLength(20, ErrorMessage = "TelephonePoint може містити не більше 20 символів.")]
+        [RegularExpression(@"^\+380\d{9}$", ErrorMessage = "Номер телефону має бути у форматі +380XXXXXXXXX.")]
         public string TelephonePoint { get; set; }
 
         [Required]
-        [StringLength(10, MinimumLength = 10, ErrorMessage = "IPN має містити рівно 10 символів.")]
+        [RegularExpression(@"^\d{10}$", ErrorMessage = "ІПН має містити рівно 10 цифр.")]
         public string IPN { get; set; }
 
         [Required]
-        [MaxLength(29, ErrorMessage = "BankAccount може містити не більше 29 символів.")]
+        [StringLength(29, ErrorMessage = "Розрахунковий рахунок повинен містити не більше 29 символів.")]
+        [RegularExpression(@"^UA\d{27}$", ErrorMessage = "Розрахунковий рахунок повинен починатися з 'UA' та містити 29 символів.")]
         public string BankAccount { get; set; }
 
         public ICollection<Call> Calls { get; set; }

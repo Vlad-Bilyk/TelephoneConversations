@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 using TelephoneConversations.Core.Interfaces.IRepository;
 using TelephoneConversations.Core.Models.DTOs;
 using TelephoneConversations.Core.Models.Entities;
@@ -63,6 +64,16 @@ namespace TelephoneConversations.API.Controllers
             if (createDTO == null)
             {
                 return BadRequest();
+            }
+
+            if (!Regex.IsMatch(createDTO.IPN, @"^\d{10}$"))
+            {
+                return BadRequest("ІПН має містити рівно 10 цифр.");
+            }
+
+            if (!Regex.IsMatch(createDTO.TelephonePoint, @"^\+380\d{9}$"))
+            {
+                return BadRequest("Номер телефону має бути у форматі +380XXXXXXXXX.");
             }
 
             if (await _dbSubscriber.GetAsync(u => u.CompanyName.ToLower() == createDTO.CompanyName.ToLower()) != null)

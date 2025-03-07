@@ -52,9 +52,9 @@ namespace TelephoneConversations.DataAccess.Data
 
             // Seed Subscribers
             modelBuilder.Entity<Subscriber>().HasData(
-                new Subscriber { SubscriberID = 1, CompanyName = "Компанія A", TelephonePoint = "12345", IPN = "1234567890", BankAccount = "UA123456789012345678901234567" },
-                new Subscriber { SubscriberID = 2, CompanyName = "Компанія B", TelephonePoint = "67890", IPN = "0987654321", BankAccount = "UA987654321098765432109876543" },
-                new Subscriber { SubscriberID = 3, CompanyName = "Компанія C", TelephonePoint = "54321", IPN = "1122334455", BankAccount = "UA112233445566778899001122334" }
+                new Subscriber { SubscriberID = 1, CompanyName = "Компанія A", TelephonePoint = "+380667898764", IPN = "1234567890", BankAccount = "UA123456789012345678901234567" },
+                new Subscriber { SubscriberID = 2, CompanyName = "Компанія B", TelephonePoint = "+380232367890", IPN = "0987654321", BankAccount = "UA987654321098765432109876543" },
+                new Subscriber { SubscriberID = 3, CompanyName = "Компанія C", TelephonePoint = "+380343454321", IPN = "1122334455", BankAccount = "UA112233445566778899001122334" }
             );
 
             // Seed Discounts
