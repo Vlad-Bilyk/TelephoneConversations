@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TelephoneConversations.DataAccess.Data;
@@ -12,54 +11,48 @@ using TelephoneConversations.DataAccess.Data;
 namespace TelephoneConversations.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250307152058_AddCorrectValidationForSubscribers")]
-    partial class AddCorrectValidationForSubscribers
+    [Migration("20250308153642_AddTablesAndSeedData")]
+    partial class AddTablesAndSeedData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
-
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.13");
 
             modelBuilder.Entity("TelephoneConversations.Core.Models.Entities.Call", b =>
                 {
                     b.Property<int>("CallID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CallID"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("BaseCost")
                         .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CallDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("CityID")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("CostWithDiscount")
                         .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("Discount")
                         .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Duration")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SubscriberID")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("TimeOfDay")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("CallID");
 
@@ -256,14 +249,12 @@ namespace TelephoneConversations.DataAccess.Migrations
                 {
                     b.Property<int>("CityID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CityID"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("CityName")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("CityID");
 
@@ -301,22 +292,20 @@ namespace TelephoneConversations.DataAccess.Migrations
                 {
                     b.Property<int>("DiscountID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiscountID"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("DiscountRate")
                         .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("DurationMax")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("DurationMin")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("TariffID")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("DiscountID");
 
@@ -324,7 +313,7 @@ namespace TelephoneConversations.DataAccess.Migrations
 
                     b.ToTable("Discounts", t =>
                         {
-                            t.HasCheckConstraint("CK_Discount_Duration", "[DurationMax] >= [DurationMin]");
+                            t.HasCheckConstraint("CK_Discount_Duration", "DurationMax >= DurationMin");
                         });
 
                     b.HasData(
@@ -382,33 +371,31 @@ namespace TelephoneConversations.DataAccess.Migrations
                 {
                     b.Property<int>("SubscriberID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubscriberID"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("BankAccount")
                         .IsRequired()
                         .HasMaxLength(29)
-                        .HasColumnType("nvarchar(29)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("IPN")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("TelephonePoint")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("SubscriberID");
 
                     b.ToTable("Subscribers", t =>
                         {
-                            t.HasCheckConstraint("CK_Subscriber_BankAccount", "LEFT([BankAccount], 2) = 'UA'");
+                            t.HasCheckConstraint("CK_Subscriber_BankAccount", "BankAccount LIKE 'UA%'");
                         });
 
                     b.HasData(
@@ -442,20 +429,18 @@ namespace TelephoneConversations.DataAccess.Migrations
                 {
                     b.Property<int>("TariffID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TariffID"));
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CityID")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal>("DayPrice")
                         .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                        .HasColumnType("TEXT");
 
                     b.Property<decimal>("NightPrice")
                         .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("TariffID");
 
