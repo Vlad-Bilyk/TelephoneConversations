@@ -3,7 +3,7 @@ function receiptGeneration() {
     const fromDate = document.getElementById("receipt-from-date").value;
     const toDate = document.getElementById("receipt-to-date").value;
 
-    fetch(`https://localhost:7119/api/Invoices/${id}/download?fromDate=${fromDate}&toDate=${toDate}`, {
+    fetch(`/api/Invoices/${id}/download?fromDate=${fromDate}&toDate=${toDate}`, {
         method: "GET",
         headers: {
             "Accept": "application/pdf"

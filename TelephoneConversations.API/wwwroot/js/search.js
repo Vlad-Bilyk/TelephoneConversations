@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function applyFilter(tableName, filterValue1, filterValue2) {
-    let apiUrl = "https://localhost:7119/api/" + tableName + "/search";
+    let apiUrl = "/api/" + tableName + "/search";
     let query = "";
 
     console.log(tableName)

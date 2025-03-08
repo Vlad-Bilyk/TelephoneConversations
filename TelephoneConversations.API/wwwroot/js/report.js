@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }).toString();
 
         try {
-            const response = await fetch(`https://localhost:7119/api/Reports/${endpoint}?${queryParams}`, {
+            const response = await fetch(`/api/Reports/${endpoint}?${queryParams}`, {
                 method: "GET"
             });
 

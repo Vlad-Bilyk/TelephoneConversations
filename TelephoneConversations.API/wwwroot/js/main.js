@@ -92,7 +92,7 @@ function AddRow() {
     }
 
     // Формируем URL для API
-    const apiUrl = `https://localhost:7119/api/${currentTable}`;
+    const apiUrl = `/api/${currentTable}`;
 
     // Отправляем данные через API
     fetch(apiUrl, {
@@ -175,7 +175,7 @@ function deleteRow(rowId) {
         return;
     }
 
-    const apiUrl = `https://localhost:7119/api/${currentTable}/${rowId}`;
+    const apiUrl = `/api/${currentTable}/${rowId}`;
     fetch(apiUrl, {
         method: "DELETE",
         headers: {

@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(`Обновление страницы для таблицы: ${tableName}`);
         
         // Запрос на получение данных с сервера
-        fetch(`https://localhost:7119/api/${tableName}`)
+        fetch(`/api/${tableName}`)
             .then(response => response.json())
             .then(data => {
                 // Очищаем текущие данные таблицы
@@ -142,7 +142,7 @@ function saveRow(rowData, rowElement, tableName) {
     });
 
     // Формируем URL для запроса
-    const url = `https://localhost:7119/api/${tableName}/${rowId}`;
+    const url = `/api/${tableName}/${rowId}`;
 
     // Отправляем данные на сервер
     fetch(url, {
