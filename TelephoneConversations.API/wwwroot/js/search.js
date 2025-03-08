@@ -22,7 +22,7 @@ function applyFilter(tableName, filterValue1, filterValue2) {
             query = `?companyName=${encodeURIComponent(filterValue1)}`;
             break;
         case "Tariffs":
-            query = `?cityId=${encodeURIComponent(filterValue1)}`;
+            query = `?cityName=${encodeURIComponent(filterValue1)}`;
             break;
         case "Discounts":
             query = `?tariffId=${encodeURIComponent(filterValue1)}`;

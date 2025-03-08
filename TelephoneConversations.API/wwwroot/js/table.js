@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (tableName !== "Calls" && tableName !== "Reports") {
                         const editButtonTd = document.createElement('td');
                         const editButton = document.createElement('button');
-                        editButton.textContent = "Редактировать";
+                        editButton.textContent = "Редагувати";
                         editButton.classList.add("edit-button");
 
                         // Обработчик события для кнопки редактирования
@@ -83,7 +83,7 @@ function RowEditNow(rowData, rowElement, tableName) {
 
     // Создаем кнопку сохранить
     const saveButton = document.createElement('button');
-    saveButton.textContent = "Сохранить";
+    saveButton.textContent = "Зберегти";
     saveButton.classList.add("save-button");
 
     // Обработчик для кнопки сохранить

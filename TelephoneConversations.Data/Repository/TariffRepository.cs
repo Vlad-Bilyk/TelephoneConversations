@@ -15,10 +15,14 @@ namespace TelephoneConversations.DataAccess.Repository
             _db = db;
         }
 
-        public async Task<IEnumerable<Tariff>> SearchTariffsAsync(int cityId, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Tariff>> SearchTariffsAsync(string cityName, CancellationToken cancellationToken = default)
         {
+            if (string.IsNullOrWhiteSpace(cityName))
+                return await _db.Tariffs.Include(t => t.City).ToListAsync(cancellationToken);
+
             return await _db.Tariffs
-                .Where(t => t.CityID == cityId)
+                .Include(t => t.City)
+                .Where(t => t.City.CityName.ToLower().Contains(cityName.ToLower()))
                 .ToListAsync(cancellationToken);
         }
 
@@ -27,6 +31,11 @@ namespace TelephoneConversations.DataAccess.Repository
             _db.Update(entity);
             await _db.SaveChangesAsync();
             return entity;
+        }
+
+        public async Task<IEnumerable<Tariff>> GetAllTariffsWithCityAsync()
+        {
+            return await GetAllAsync(null, "City");
         }
     }
 }

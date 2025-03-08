@@ -23,7 +23,7 @@ namespace TelephoneConversations.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<TariffDTO>>> GetTariffs()
         {
-            IEnumerable<Tariff> tariffList = await _dbTariff.GetAllAsync();
+            IEnumerable<Tariff> tariffList = await _dbTariff.GetAllTariffsWithCityAsync();
             return Ok(_mapper.Map<List<TariffDTO>>(tariffList));
         }
 
@@ -48,9 +48,9 @@ namespace TelephoneConversations.API.Controllers
 
         [HttpGet("search")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<TariffDTO>> SearchTariffs(int cityId)
+        public async Task<ActionResult<TariffDTO>> SearchTariffs(string cityName)
         {
-            var tariffs = await _dbTariff.SearchTariffsAsync(cityId);
+            var tariffs = await _dbTariff.SearchTariffsAsync(cityName);
             return Ok(_mapper.Map<List<TariffDTO>>(tariffs));
         }
 

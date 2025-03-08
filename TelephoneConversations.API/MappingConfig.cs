@@ -17,7 +17,10 @@ namespace TelephoneConversations.API
             CreateMap<City, CityDTO>().ReverseMap();
             CreateMap<City, CityCreateDTO>().ReverseMap();
 
-            CreateMap<Tariff, TariffDTO>().ReverseMap();
+            CreateMap<Tariff, TariffDTO>()
+                .ForMember(dest => dest.CityName,
+                opt => opt.MapFrom(src => src.City.CityName));
+            CreateMap<TariffDTO, Tariff>();
             CreateMap<Tariff, TariffCreateDTO>().ReverseMap();
 
             CreateMap<Discount, DiscountDTO>().ReverseMap();
