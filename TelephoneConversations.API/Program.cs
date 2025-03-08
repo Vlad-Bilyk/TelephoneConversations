@@ -23,7 +23,7 @@ QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 
 builder.Services.AddDbContext<ApplicationDbContext>(option =>
 {
-    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
+    option.UseSqlite(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
 });
 
 builder.Services.AddScoped<ISubscriberRepository, SubscriberRepository>();

@@ -17,9 +17,9 @@ namespace TelephoneConversations.DataAccess.Migrations
                 name: "Cities",
                 columns: table => new
                 {
-                    CityID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CityName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
+                    CityID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CityName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,28 +30,28 @@ namespace TelephoneConversations.DataAccess.Migrations
                 name: "Subscribers",
                 columns: table => new
                 {
-                    SubscriberID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CompanyName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    TelephonePoint = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    IPN = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    BankAccount = table.Column<string>(type: "nvarchar(29)", maxLength: 29, nullable: false)
+                    SubscriberID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CompanyName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    TelephonePoint = table.Column<string>(type: "TEXT", nullable: false),
+                    IPN = table.Column<string>(type: "TEXT", nullable: false),
+                    BankAccount = table.Column<string>(type: "TEXT", maxLength: 29, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Subscribers", x => x.SubscriberID);
-                    table.CheckConstraint("CK_Subscriber_BankAccount", "LEFT([BankAccount], 2) = 'UA'");
+                    table.CheckConstraint("CK_Subscriber_BankAccount", "BankAccount LIKE 'UA%'");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Tariffs",
                 columns: table => new
                 {
-                    TariffID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CityID = table.Column<int>(type: "int", nullable: false),
-                    DayPrice = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
-                    NightPrice = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false)
+                    TariffID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CityID = table.Column<int>(type: "INTEGER", nullable: false),
+                    DayPrice = table.Column<decimal>(type: "TEXT", precision: 10, scale: 2, nullable: false),
+                    NightPrice = table.Column<decimal>(type: "TEXT", precision: 10, scale: 2, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -68,16 +68,16 @@ namespace TelephoneConversations.DataAccess.Migrations
                 name: "Calls",
                 columns: table => new
                 {
-                    CallID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SubscriberID = table.Column<int>(type: "int", nullable: false),
-                    CityID = table.Column<int>(type: "int", nullable: false),
-                    CallDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Duration = table.Column<int>(type: "int", nullable: false),
-                    TimeOfDay = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BaseCost = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
-                    Discount = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
-                    CostWithDiscount = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false)
+                    CallID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    SubscriberID = table.Column<int>(type: "INTEGER", nullable: false),
+                    CityID = table.Column<int>(type: "INTEGER", nullable: false),
+                    CallDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Duration = table.Column<int>(type: "INTEGER", nullable: false),
+                    TimeOfDay = table.Column<string>(type: "TEXT", nullable: false),
+                    BaseCost = table.Column<decimal>(type: "TEXT", precision: 10, scale: 2, nullable: false),
+                    Discount = table.Column<decimal>(type: "TEXT", precision: 10, scale: 2, nullable: false),
+                    CostWithDiscount = table.Column<decimal>(type: "TEXT", precision: 10, scale: 2, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -100,17 +100,17 @@ namespace TelephoneConversations.DataAccess.Migrations
                 name: "Discounts",
                 columns: table => new
                 {
-                    DiscountID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TariffID = table.Column<int>(type: "int", nullable: false),
-                    DurationMin = table.Column<int>(type: "int", nullable: false),
-                    DurationMax = table.Column<int>(type: "int", nullable: false),
-                    DiscountRate = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false)
+                    DiscountID = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    TariffID = table.Column<int>(type: "INTEGER", nullable: false),
+                    DurationMin = table.Column<int>(type: "INTEGER", nullable: false),
+                    DurationMax = table.Column<int>(type: "INTEGER", nullable: false),
+                    DiscountRate = table.Column<decimal>(type: "TEXT", precision: 10, scale: 2, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Discounts", x => x.DiscountID);
-                    table.CheckConstraint("CK_Discount_Duration", "[DurationMax] >= [DurationMin]");
+                    table.CheckConstraint("CK_Discount_Duration", "DurationMax >= DurationMin");
                     table.ForeignKey(
                         name: "FK_Discounts_Tariffs_TariffID",
                         column: x => x.TariffID,
@@ -136,9 +136,9 @@ namespace TelephoneConversations.DataAccess.Migrations
                 columns: new[] { "SubscriberID", "BankAccount", "CompanyName", "IPN", "TelephonePoint" },
                 values: new object[,]
                 {
-                    { 1, "UA123456789012345678901234567", "Компанія A", "1234567890", "12345" },
-                    { 2, "UA987654321098765432109876543", "Компанія B", "0987654321", "67890" },
-                    { 3, "UA112233445566778899001122334", "Компанія C", "1122334455", "54321" }
+                    { 1, "UA123456789012345678901234567", "Компанія A", "1234567890", "+380667898764" },
+                    { 2, "UA987654321098765432109876543", "Компанія B", "0987654321", "+380232367890" },
+                    { 3, "UA112233445566778899001122334", "Компанія C", "1122334455", "+380343454321" }
                 });
 
             migrationBuilder.InsertData(

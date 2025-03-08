@@ -21,10 +21,10 @@ namespace TelephoneConversations.DataAccess.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Discount>()
-                .ToTable(t => t.HasCheckConstraint("CK_Discount_Duration", "[DurationMax] >= [DurationMin]"));
+                .ToTable(t => t.HasCheckConstraint("CK_Discount_Duration", "DurationMax >= DurationMin"));
 
             modelBuilder.Entity<Subscriber>()
-                .ToTable(t => t.HasCheckConstraint("CK_Subscriber_BankAccount", "LEFT([BankAccount], 2) = 'UA'"));
+                .ToTable(t => t.HasCheckConstraint("CK_Subscriber_BankAccount", "BankAccount LIKE 'UA%'"));
 
             modelBuilder.Entity<Discount>()
                 .HasOne(d => d.Tariff)
